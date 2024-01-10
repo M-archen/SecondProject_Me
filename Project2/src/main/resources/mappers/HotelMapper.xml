@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.hoteldog.hotel.HotelMapper">
+    <select id="getHotelResInfo">
+        SELECT res_pk AS resPk,user_pk AS userPk
+            ,from_date AS fromDate ,to_date AS toDate
+            ,res_status AS resStatus
+        FROM t_reservation
+        WHERE hotel_pk=#{hotelPk}
+        AND to_date BETWEEN from_date=#{startDate} AND to_date=#{endDate}
+    </select>
+    <select id="getReviewFavCnt">
+        SELECT COUNT(review_pk) AS reviewFavCount
+        FROM t_review_fav
+        WHERE review_pk=#{reviewPk}
+    </select>
+    <select id="getHotelReview">
+        SELECT E.nick_name AS nickName, E.pic AS userPic, A.comment
+            ,A.updated_at AS updatedAt, A.score
+        FROM t_review A
+        JOIN t_reservation B
+        ON A.res_pk=B.res_pk
+        JOIN t_hotel C
+        ON B.hotel_pk=C.hotel_pk
+        JOIN t_review_fav D
+        ON D.review_pk=A.review_pk
+        JOIN t_user E
+        ON E.user_pk=D.user_pk
+        WHERE B.hotel_pk=#{hotelPk} AND E.user_pk=#{userPk}
+        LIMIT 1
+    </select>
+    <select id="getDogResInfo">
+        SELECT COUNT(res_dog_pk) AS dogCnt
+        FROM t_reservation_dog_info
+        WHERE res_pk=#{resPk}
+    </select>
+    <select id="getHotelDetail">
+        SELECT C.maximum AS dogMax,C.hotel_nm AS hotelNm
+            ,C.contents,C.buisiness_num AS buisinessNum
+            ,C.hotel_call AS hotelCallnum,C.road_address AS roadAddress
+        FROM t_review A
+        JOIN t_reservation B
+        ON A.res_pk=B.res_pk
+        JOIN t_hotel C
+        ON B.hotel_pk=C.hotel_pk
+        WHERE C.hotel_pk=#{hotelPk}
+    </select>
+    <select id="getHotelPics">
+        SELECT pic AS pics
+        FROM t_hotel_pic
+        WHERE hotel_pk=#{hotelPk}
+    </select>
+    <select id="getReviewPics">
+        SELECT D.pic
+        FROM t_review A
+        JOIN t_reservation B
+        ON A.res_pk=B.res_pk
+        JOIN t_hotel C
+        ON B.hotel_pk=C.hotel_pk
+        JOIN t_hotel_pic D
+        ON D.hotel_pk=C.hotel_pk
+        WHERE C.hotel_pk=#{hotelPk} AND C.user_pk=#{userPk}
+    </select>
+    <select id="getUidByReview">
+        SELECT E.user_pk AS userPk,A.hotel_pk AS hotelPk,C.review_pk AS reviewPk
+        FROM t_hotel A
+        JOIN t_reservation B
+        ON A.hotel_pk=B.hotel_pk
+        JOIN t_review C
+        ON B.res_pk=C.res_pk
+        JOIN t_review_fav D
+        ON C.review_pk=D.review_pk
+        JOIN t_user E
+        ON A.user_pk=E.user_pk
+        WHERE A.hotel_pk=#{hotelPk}
+        ORDER BY C.score
+        LIMIT 3
+    </select>
+    <select id="">
+        SELECT res_pk AS resPk, user_pk AS userPk
+            ,DATE_FORMAT('%Y-%m-%D','%Y-%m-%D')
+    </select>
+    <!-- -->
+    <delete id="delHotelBookMark">
+        DELETE FROM t_hotel_favorites
+        WHERE user_pk=#{userPk}
+        AND hotel_pk=#{hotelPk}
+    </delete>
+    <insert id="insHotelBookMark">
+        INSERT INTO t_hotel_favorites
+        <set>
+            user_pk=#{userPK}
+            ,   hotel_pk=#{hotelPk}
+        </set>
+    </insert>
+</mapper>
+
+
