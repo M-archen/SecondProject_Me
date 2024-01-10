@@ -12,7 +12,7 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    List<HotelResInfoVo> getHotelResInfo(int hotelPk, LocalDate startDate, LocalDate endDate);
+    List<HotelResInfoVo> getHotelResInfo(int hotelPk, String startDate, String endDate);
     List<HotelReviewDto> getUidByReview(int hotelPk);
     HotelReviewVo getHotelReview(HotelReviewDto dto);
     HotelInfoVo getHotelDetail(int hotelPk);

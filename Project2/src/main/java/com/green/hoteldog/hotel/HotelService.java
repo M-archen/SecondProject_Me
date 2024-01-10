@@ -5,13 +5,17 @@ import com.green.hoteldog.hotel.model.*;
 import com.green.hoteldog.user.model.UserHotelFavDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -55,20 +59,8 @@ public class HotelService {
         hotelInfoVo.setReviewList(reviewVos);
         //최종적으로 보여줄 객체에 호텔 정보 삽입.
         hotelMainPage.setHotelInfoVo(hotelInfoVo);
-
-
         // 방 정보 넣어줘야함. 1월 10일 회의.
-
-
         //정보 끝.--------
-
-        //현재 년도.현재 달
-        int todayYear=LocalDate.now().getYear();
-        int MonthValue=LocalDate.now().getMonthValue();
-        //한달 뒤의 현재 년도,달
-        int nxtYearByMonth=LocalDate.now().plusMonths(1).getYear();
-        int nxtMonth=LocalDate.now().plusMonths(1).getMonthValue();
-
         LocalDate today=LocalDate.now();
         //for 문 select 안쓰는 방향으로 ...
 
@@ -83,24 +75,26 @@ public class HotelService {
             LocalDate localDate=LocalDate.now().plusMonths(1).plusDays(i- today.getDayOfMonth());
             twoMonthDate.add(localDate);
         }
-        //twoMonthDate : 두달동안 날짜 리스트.
+        //twoMonthDate : 두달동안 날짜 리스트(LocalDate 타입)
+        //twoMonth : String 타입 리스트.
+        List<String> twoMonth=twoMonthDate
+                .stream()
+                .map(localDate -> localDate.toString())
+                .collect(Collectors.toList());
+
         //호텔 예약정보 최근 두달 다가져오기.
         //줘야할 것 호텔 pk,시작,끝날짜.
         //해야할 것 : 날짜별로 예약정보 받아와서 예약된 강아지 수 카운팅, 비교
 
-        //시작날짜 : 요번달 첫날
-        LocalDate startDate= twoMonthDate.get(0);
-        //끝나는날짜 : 다다음달 첫날 (BETWEEN 쿼리 사용 위함)
-        LocalDate endDate=twoMonthDate.get(twoMonthDate.size()).plusDays(1);
 
+        //시작날짜 : 요번달 첫날
+        String startDate=twoMonthDate.get(0).toString();
+        //끝나는날짜 : 다다음달 첫날 (BETWEEN 쿼리 사용 위함)
+        String endDate=twoMonthDate.get(twoMonthDate.size()).plusDays(1).toString();
         // 추가사항 1월 10일
         // 2달동안의 날짜 보내는 객체에
         // 호텔의 방 타입,방 타입에 대한 예약 여부
         // 방 타입은 추후 추가
-        //
-        //
-
-
         //일정 기간동안의(2달간) 호텔의 예약정보 가져옴.
         List<HotelResInfoVo> hotelResInfoVos=mapper.getHotelResInfo(hotelPk,startDate,endDate);
         for (HotelResInfoVo vo:hotelResInfoVos) {

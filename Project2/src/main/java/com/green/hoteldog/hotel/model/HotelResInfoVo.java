@@ -8,8 +8,8 @@ import java.time.LocalDate;
 public class HotelResInfoVo {
     private int resPk;
     private int userPk;
-    private LocalDate fromDate;
-    private LocalDate toDate;
+    private String fromDate;
+    private String toDate;
     private int dogCnt;
     private int resStatus;
 }
