@@ -40,6 +40,11 @@ public class HotelService {
         //호텔 리뷰 pk, 유저 pk, 호텔 pk 받음.(최대 3개)
         List<HotelReviewDto> getInfoByReview=mapper.getUidByReview(hotelPk);
 
+
+
+
+        List<Integer> resPkList=mapper.getHotelResPk(hotelPk);
+
         // reviewExist =0 리뷰없음.
         int reviewExist=getInfoByReview.size();
         //리뷰를 받기위한 리스트 만들어줌.
@@ -96,6 +101,7 @@ public class HotelService {
         // 호텔의 방 타입,방 타입에 대한 예약 여부
         // 방 타입은 추후 추가
         //일정 기간동안의(2달간) 호텔의 예약정보 가져옴.
+
         List<HotelResInfoVo> hotelResInfoVos=mapper.getHotelResInfo(hotelPk,startDate,endDate);
         for (HotelResInfoVo vo:hotelResInfoVos) {
             int dogCnt= mapper.getDogResInfo(vo.getResPk());

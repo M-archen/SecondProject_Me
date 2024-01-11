@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class HotelResDogInfoVo {
     private int resPk;
+    //추가예정
 
 }
