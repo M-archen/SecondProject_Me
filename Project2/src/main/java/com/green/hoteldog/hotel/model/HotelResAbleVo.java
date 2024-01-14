@@ -9,8 +9,7 @@ import lombok.Data;
 public class HotelResAbleVo {
     @Schema(name = "날짜")
     private String date;
-    @Schema(name = "예약 가능여부",defaultValue = "0"
-        ,description = "예약 가능하면 1 , 아니면 0")
+
     private int resAble=0;
     @Schema(name = "예약가능한 강아지 마릿수") // 추후 수정요망.
     private int dogCnt;

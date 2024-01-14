@@ -30,28 +30,28 @@ public class HotelService {
         int result2= mapper.insHotelBookMark(dto);
         return new ResVo(result2);
     }
-    public HotelMainPage getHotelDetail(int hotelPk){
+    public HotelMainPage getHotelDetail(HotelMainPageDto dto){
         //메인페이지 객체 생성
         HotelMainPage hotelMainPage=new HotelMainPage();
         // 호텔 기본적인 정보.
-        HotelInfoVo hotelInfoVo=mapper.getHotelDetail(hotelPk);
+        HotelInfoVo hotelInfoVo=mapper.getHotelDetail(dto.getHotelPk());
         //호텔 사진 넣어줌.
-        hotelInfoVo.setPics(mapper.getHotelPics(hotelPk));
+        hotelInfoVo.setPics(mapper.getHotelPics(dto.getHotelPk()));
         //호텔 리뷰 pk, 유저 pk, 호텔 pk 받음.(최대 3개)
-        List<HotelReviewDto> getInfoByReview=mapper.getUidByReview(hotelPk);
+        List<HotelReviewDto> getInfoByReview=mapper.getUidByReview(dto.getHotelPk());
 
         // reviewExist =0 리뷰없음.
         int reviewExist=getInfoByReview.size();
         //리뷰를 받기위한 리스트 만들어줌.
         List<HotelReviewVo> reviewVos=new ArrayList<>();
 
-        for (HotelReviewDto dto : getInfoByReview) {
+        for (HotelReviewDto reviewDto : getInfoByReview) {
             //호텔 리뷰 객체 생성 후 호텔 리뷰 넣어줌
-            HotelReviewVo hotelReviewVo = mapper.getHotelReview(dto);
+            HotelReviewVo hotelReviewVo = mapper.getHotelReview(reviewDto);
             //방금 받은 객체에 사진 삽입.
-            hotelReviewVo.setPics(mapper.getReviewPics(dto));
+            hotelReviewVo.setPics(mapper.getReviewPics(reviewDto));
             //리뷰의 좋아요 갯수 삽입.
-            hotelReviewVo.setReviewFavCount(mapper.getReviewFavCnt(dto));
+            hotelReviewVo.setReviewFavCount(mapper.getReviewFavCnt(reviewDto));
             // 새로 만든 리뷰 리스트에 리뷰 삽입.
             reviewVos.add(hotelReviewVo);
         }
@@ -96,7 +96,7 @@ public class HotelService {
         // 호텔의 방 타입,방 타입에 대한 예약 여부
         // 방 타입은 추후 추가
         //일정 기간동안의(2달간) 호텔의 예약정보 가져옴.
-        List<HotelResInfoVo> hotelResInfoVos=mapper.getHotelResInfo(hotelPk,startDate,endDate);
+        List<HotelResInfoVo> hotelResInfoVos=mapper.getHotelResInfo(dto.getHotelPk(),startDate,endDate);
         for (HotelResInfoVo vo:hotelResInfoVos) {
             int dogCnt= mapper.getDogResInfo(vo.getResPk());
 

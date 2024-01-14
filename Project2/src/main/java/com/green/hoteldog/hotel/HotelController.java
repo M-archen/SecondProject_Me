@@ -1,8 +1,10 @@
 package com.green.hoteldog.hotel;
 
 import com.green.hoteldog.common.ResVo;
+import com.green.hoteldog.common.exception.ExceptionMsg;
 import com.green.hoteldog.hotel.model.HotelInfoVo;
 import com.green.hoteldog.hotel.model.HotelMainPage;
+import com.green.hoteldog.hotel.model.HotelMainPageDto;
 import com.green.hoteldog.hotel.model.HotelResAbleVo;
 import com.green.hoteldog.user.model.UserHotelFavDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/hotel")
 public class HotelController {
+
     private final HotelService service;
 
     //호텔 상세페이지 - 캘린더 : 예약 다 찬 날짜 뿌리기. 2개월치 날짜 뿌리기.
@@ -42,10 +45,12 @@ public class HotelController {
      */
     //호텔 메인페이지 ( 2달치 정보 한번에 보냄)
     @GetMapping()
-    public HotelMainPage getHotelDetail(){
+    public HotelMainPage getHotelDetail(@RequestBody HotelMainPageDto dto){
+
+
         return null;
     }
-    // 호텔 예약 2달치 정보 뿌림.
+
     @GetMapping()
     public List<HotelResAbleVo> getTwoMonthRes(){
         return null;
