@@ -102,7 +102,7 @@ public class HotelService {
 
         }
         List<HotelResAbleVo> twoMonthHotelInfo=new ArrayList<>();
-        int dogMax=hotelInfoVo.getDogMax();
+
 
 
         /*
