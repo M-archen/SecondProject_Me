@@ -22,4 +22,10 @@ public interface HotelMapper {
     List<String> getReviewPics(HotelReviewDto dto);
     int delHotelBookMark(UserHotelFavDto dto);
     int insHotelBookMark(UserHotelFavDto dto);
+
+
+    //
+
+    List<Integer> getHotelResPk(int hotelPk);
+    List<Integer> getUserByFavCnt();
 }
