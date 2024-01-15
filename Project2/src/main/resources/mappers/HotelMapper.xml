@@ -34,7 +34,7 @@
         WHERE hotel_pk=#{hotelPk}
     </select>
     <select id="isMoreHotelReview">
-        SELECT 1
+        SELECT COUNT(A.review_pk) AS countreview
         FROM t_review A
         JOIN t_reservation B
         ON A.res_pk=B.res_pk
@@ -60,14 +60,12 @@
         WHERE hotel_pk=#{hotelPk}
     </select>
     <select id="getReviewPics">
-        SELECT D.pic
-        FROM t_review A
-        JOIN t_reservation B
-        ON A.res_pk=B.res_pk
-        JOIN t_hotel C
-        ON B.hotel_pk=C.hotel_pk
-        JOIN t_hotel_pic D
-        ON D.hotel_pk=C.hotel_pk
+        SELECT A.pics
+        FROM t_review_pic A
+        JOIN t_review B
+        ON A.review_pk=B.review_pk
+        JOIN t_reservation C
+        ON C.res_pk=B.res_pk
         WHERE C.hotel_pk=#{hotelPk} AND C.user_pk=#{userPk}
     </select>
     <!--호텔 메인페이지에 리뷰를 출력하기위해 -->

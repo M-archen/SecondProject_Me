@@ -8,6 +8,5 @@ import java.util.List;
 @Data
 @Schema(name = "호텔 리뷰의 사진")
 public class HotelReviewPicVo {
-    private int iuser;
     private List<String> pics;
 }

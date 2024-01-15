@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,8 +42,13 @@ public class HotelService {
         if(reviewThree.size()==0){
             // 리뷰 없음.
         }
-        int isMoreReview=mapper.isMoreHotelReview(dto.getHotelPk());
-        if(isMoreReview>3){
+        HotelReviewVo vo;
+        List pics;
+
+
+
+        int countreview=mapper.isMoreHotelReview(dto.getHotelPk());
+        if(countreview>3){
             hotelInfoVo.setIsMoreReview(1);//리뷰 더있니 => 0 to 1
         }
 
