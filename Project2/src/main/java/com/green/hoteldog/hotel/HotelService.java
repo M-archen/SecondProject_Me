@@ -37,33 +37,23 @@ public class HotelService {
         HotelInfoVo hotelInfoVo=mapper.getHotelDetail(dto.getHotelPk());
         //호텔 사진 넣어줌.
         hotelInfoVo.setPics(mapper.getHotelPics(dto.getHotelPk()));
-        //호텔 리뷰 pk, 유저 pk, 호텔 pk 받음.(최대 3개)
-        List<HotelReviewDto> getInfoByReview=mapper.getUidByReview(dto.getHotelPk());
+        HotelOption option=mapper.hotelOptionInfo(dto.getHotelPk());
+        hotelInfoVo.setHotelOption(option);
 
-        // reviewExist =0 리뷰없음.
-        int reviewExist=getInfoByReview.size();
-        //리뷰를 받기위한 리스트 만들어줌.
-        List<HotelReviewVo> reviewVos=new ArrayList<>();
-
-        for (HotelReviewDto reviewDto : getInfoByReview) {
-            //호텔 리뷰 객체 생성 후 호텔 리뷰 넣어줌
-            HotelReviewVo hotelReviewVo = mapper.getHotelReview(reviewDto);
-            //방금 받은 객체에 사진 삽입.
-            hotelReviewVo.setPics(mapper.getReviewPics(reviewDto));
-            //리뷰의 좋아요 갯수 삽입.
-            hotelReviewVo.setReviewFavCount(mapper.getReviewFavCnt(reviewDto));
-            // 새로 만든 리뷰 리스트에 리뷰 삽입.
-            reviewVos.add(hotelReviewVo);
+        //좋아요 많은 갯수대로 호텔에 적힌 리뷰 최대 3개까지 가져옴.
+        List<HotelReviewVo> reviewThree=mapper.getHotelReviewThree(dto.getHotelPk());
+        if(reviewThree.size()==0){
+            // 리뷰 없음.
         }
-        //호텔 정보에 리뷰 넣어줌
-        hotelInfoVo.setReviewList(reviewVos);
-        //최종적으로 보여줄 객체에 호텔 정보 삽입.
-        hotelMainPage.setHotelInfoVo(hotelInfoVo);
-        // 방 정보 넣어줘야함. 1월 10일 회의.
-        //정보 끝.--------
-        LocalDate today=LocalDate.now();
-        //for 문 select 안쓰는 방향으로 ...
+        int isMoreReview=mapper.isMoreHotelReview(dto.getHotelPk());
+        if(isMoreReview>3){
+            hotelInfoVo.setIsMoreReview(1);//리뷰 더있니 => 0 to 1
+        }
 
+        hotelInfoVo.setReviewList(reviewThree);
+        hotelMainPage.setHotelInfoVo(hotelInfoVo);
+
+        LocalDate today=LocalDate.now();
         List<LocalDate> twoMonthDate=new ArrayList<>();
         //요번달 날짜,
         for (int i = 1; i < today.lengthOfMonth() ; i++) {

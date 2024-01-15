@@ -24,12 +24,12 @@ public class HotelReviewVo {
     @JsonProperty(value = "comment")
     @Schema(name = "유저가 작성한 호텔 리뷰 글",type = "String")
     private String comment;
-    @JsonProperty(value = "created_at")
-    @Schema(name = "리뷰 작성 시점")
-    private String createdAt;
     @NotNull
     @Schema(name = "호텔 리뷰 별점",type = "int",description = "1~10")
     private int score;
+    @JsonProperty(value = "created_at")
+    @Schema(name = "리뷰 작성 시점")
+    private String createdAt;
     @Schema(name = "리뷰 사진들",type = "List<String>")
     private List<String> pics;
     @Schema(name = "작성한 리뷰의 좋아요 갯수")

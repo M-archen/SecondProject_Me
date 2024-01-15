@@ -10,7 +10,7 @@ public class HotelOption {
     @Schema(name = "수영장 여부")
     @JsonProperty(value = "swimming_pool")
     private int swimmingPool=0;
-    @Schema(name = "ㅁㄴㅇㄹㅇㅁㄴㄹ")
+    @Schema(name = "")
     @JsonProperty(value = "play_ground")
     private int playGround=0;
     @JsonProperty(value = "hand_made_food")

@@ -10,25 +10,35 @@
         WHERE hotel_pk=#{hotelPk}
         AND to_date BETWEEN from_date=#{startDate} AND to_date=#{endDate}
     </select>
-    <select id="getReviewFavCnt">
-        SELECT COUNT(review_pk) AS reviewFavCount
-        FROM t_review_fav
-        WHERE review_pk=#{reviewPk}
-    </select>
-    <select id="getHotelReview">
-        SELECT E.nick_name AS nickName, E.pic AS userPic, A.comment
-            ,A.updated_at AS updatedAt, A.score
+    <select id="getHotelReviewThree">
+        SELECT B.hotel_pk AS hotelPk,C.user_pk AS userPk,C.nickname AS nickName
+        , A.comment,A.score,A.created_at AS createdAt,COUNT(D.review_pk) AS reviewFav
         FROM t_review A
         JOIN t_reservation B
         ON A.res_pk=B.res_pk
-        JOIN t_hotel C
-        ON B.hotel_pk=C.hotel_pk
-        JOIN t_review_fav D
-        ON D.review_pk=A.review_pk
-        JOIN t_user E
-        ON E.user_pk=D.user_pk
-        WHERE B.hotel_pk=#{hotelPk} AND E.user_pk=#{userPk}
-        LIMIT 1
+        JOIN t_user C
+        ON C.user_pk=B.user_pk
+        RIGHT JOIN t_review_fav D
+        ON A.review_pk=D.review_pk
+        WHERE B.hotel_pk=#{hotelPk}
+        GROUP BY D.review_pk
+        ORDER BY COUNT(D.review_pk) DESC
+        LIMIT 3
+    </select>
+    <select id="hotelOptionInfo">
+        SELECT swimming_pool AS swimmingPool ,play_ground AS playGround
+        ,	hand_made_food AS handMadeFood,pick_up AS pickUp
+        ,  dog_beauty AS dogBeautiy,dog_program AS dogprogram
+        ,	dog_walking AS dogWalking
+        FROM t_hotel_option
+        WHERE hotel_pk=#{hotelPk}
+    </select>
+    <select id="isMoreHotelReview">
+        SELECT 1
+        FROM t_review A
+        JOIN t_reservation B
+        ON A.res_pk=B.res_pk
+        WHERE B.hotel_pk=#{hotelPk}
     </select>
     <select id="getDogResInfo">
         SELECT COUNT(res_dog_pk) AS dogCnt
@@ -36,15 +46,13 @@
         WHERE res_pk=#{resPk}
     </select>
     <select id="getHotelDetail">
-        SELECT C.maximum AS dogMax,C.hotel_nm AS hotelNm
-            ,C.contents,C.buisiness_num AS buisinessNum
-            ,C.hotel_call AS hotelCallnum,C.road_address AS roadAddress
-        FROM t_review A
-        JOIN t_reservation B
-        ON A.res_pk=B.res_pk
-        JOIN t_hotel C
-        ON B.hotel_pk=C.hotel_pk
-        WHERE C.hotel_pk=#{hotelPk}
+        SELECT A.hotel_nm AS hotelNm, A.hotel_detail_info AS hotelDetailInfo ,A.maximum
+        ,	A.buisiness_num AS buisinessNum, A.hotel_call AS hotelCall
+        ,  C.address_name AS roadAddress,C.detail_address AS addressDetail
+        FROM t_hotel A
+        LEFT JOIN t_hotel_where C
+        ON A.hotel_pk=C.hotel_pk
+        WHERE A.hotel_pk=#{hotelPk}
     </select>
     <select id="getHotelPics">
         SELECT pic AS pics

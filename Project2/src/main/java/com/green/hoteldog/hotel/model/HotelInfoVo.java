@@ -22,9 +22,9 @@ public class HotelInfoVo {
     @Schema(name = "호텔 상세정보")
     private String hotelDetailInfo;
 
-
-    @Schema(name = "호텔 사진")
-    private List<String> pics;
+    @NotNull
+    @Schema(name = "멍멍이 최대 수용가능 마릿수")
+    private int maximum;
 
     @NotNull
     @JsonProperty(value = "buisiness_num")
@@ -32,23 +32,27 @@ public class HotelInfoVo {
     private String buisinessNum;
 
     @NotNull
-    @JsonProperty(value = "hotel_callnum")
+    @JsonProperty(value = "hotel_call")
     @Schema(name = "호텔 전화번호")
-    private String hotelCallnum;
+    private String hotelCall;
 
     @NotNull
-    @JsonProperty(value = "address_name")
+    @JsonProperty(value = "road_address")
     @Schema(name = "호텔 도로명주소")
-    private String addressName;
+    private String roadAddress;
+
+    @JsonProperty(value = "address_detail")
+    @Schema(name = "호텔 상세주소")
+    private String addressDetail;
+
+    @Schema(name = "호텔 사진")
+    private List<String> pics;
 
     @NotNull
     @JsonProperty(value = "hotel_option")
     @Schema(name = "호텔 옵션")
     private HotelOption hotelOption;
 
-    @NotNull
-    @Schema(name = "멍멍이 최대 수용가능 마릿수")
-    private int maximum;
 
     @NotNull
     @Schema(name = "호텔 방 정보 리스트.")
@@ -56,6 +60,10 @@ public class HotelInfoVo {
 
     @Schema(name = "유저들이 정성스럽게 쓴 호텔 리뷰")
     private List<HotelReviewVo> reviewList;
+
+    @Schema(name = "리뷰 더있니?",description = "리뷰 더 없음=0,리뷰 더 있음=1"
+            ,defaultValue = "0")
+    private int isMoreReview=0;
 
 }
 
