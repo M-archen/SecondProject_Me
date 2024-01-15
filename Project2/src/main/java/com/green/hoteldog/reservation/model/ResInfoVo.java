@@ -7,12 +7,12 @@ import java.util.List;
 @Data
 public class ResInfoVo {
 
-    private int resPk;
     private String hotelNm;
-    private String hotelCallnum;
+    private String hotelCall;
+    private String hotelRoomNm;
     private String fromDate;
     private String toDate;
-    private int cancle;
-
+    private String roomPic;
+    private int resPk;
     private List<ResDogInfoVo> resDogInfoVoList;
 }

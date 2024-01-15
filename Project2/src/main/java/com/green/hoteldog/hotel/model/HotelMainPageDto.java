@@ -1,7 +1,7 @@
 package com.green.hoteldog.hotel.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.green.hoteldog.common.exception.ExceptionMsg;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Schema(name = "호텔 상세페이지 요청데이터")
 public class HotelMainPageDto {
-    @NotNull(message = ExceptionMsg.NOT_ENOUGH_DATA_REQUEST)
+    @NotNull
     @Schema(name = "호텔 pk",minimum = "0",description = "호텔 상세 페이지<br>" +
             "출력 시 필요한 호텔 pk")
     @JsonProperty(required = true,value = "hotel_pk")

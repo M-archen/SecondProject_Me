@@ -10,5 +10,5 @@ import java.util.List;
 @Mapper
 public interface ReservationMapper {
     List<ResInfoVo> getUserReservation(ResInfoDto dto);
-    List<ResDogInfoVo> getDogInfoReservation(int userPk,int resPk);
+    List<ResDogInfoVo> getDogInfoReservation(List<Integer> resPk);
 }

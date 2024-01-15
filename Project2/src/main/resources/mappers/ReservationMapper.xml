@@ -3,21 +3,27 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.hoteldog.reservation.ReservationMapper">
     <select id="getDogInfoReservation">
-        SELECT C.res_dog_pk AS resDogPk,C.size_pk AS sizePk,C.age,C.information
-        FROM t_user A
-        JOIN t_reservation B
-        ON A.user_pk=B.user_pk
-        JOIN t_reservation_dog_info C
-        ON B.res_pk=C.res_pk
-        WHERE A.user_pk=#{userPk} AND B.res_pk=#{resPk}
+        SELECT A.res_pk AS resPk, B.dog_nm AS dogNm
+        ,  B.age, B.information
+        FROM t_res_comprehensive_info A
+        JOIN t_res_dog_info B
+        ON A.res_dog_pk=B.res_dog_pk
+        WHERE A.res_pk IN
+        <foreach collection="list" item="resPk" open="(" close=")" separator=",">
+            #{resPk}
+        </foreach>
     </select>
     <select id="getUserReservation">
-        SELECT B.res_pk AS resPk ,B.user_pk AS userPk
-        ,B.hotel_pk AS hotelPk,B.from_date AS fromDate
-        ,B.to_date AS toDate,B.res_status AS cancle
-        FROM t_user A
-        JOIN t_reservation B
-        ON A.user_pk=B.user_pk
-        WHERE B.user_pk=#{userPk}
+        SELECT D.hotel_nm AS hotelNm,D.hotel_call AS hotelCall
+        ,   C.hotel_room_nm AS hotelRoomNm ,A.from_date AS fromDate
+        ,   A.to_date AS toDate,C.room_pic AS roomPic ,A.res_pk AS resPk
+        FROM t_reservation A
+        JOIN t_res_comprehensive_info B
+        ON A.res_pk=B.res_pk
+        JOIN t_hotel_room_info C
+        ON B.hotel_room_pk=C.hotel_room_pk
+        JOIN t_hotel D
+        ON A.hotel_pk=D.hotel_pk
+        WHERE A.user_pk=#{userPk} AND A.res_status=1
     </select>
 </mapper>

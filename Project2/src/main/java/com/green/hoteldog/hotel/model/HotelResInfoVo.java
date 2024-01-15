@@ -10,6 +10,6 @@ public class HotelResInfoVo {
     private int userPk;
     private String fromDate;
     private String toDate;
-    private int dogCnt;
+
     private int resStatus;
 }

@@ -51,7 +51,7 @@ public class HotelInfoVo {
     @NotNull
     @JsonProperty(value = "hotel_option")
     @Schema(name = "호텔 옵션")
-    private HotelOption hotelOption;
+    private List<String> hotelOption;
 
 
     @NotNull

@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -20,38 +17,23 @@ import java.util.stream.Collectors;
 public class ReservationService {
     private final ReservationMapper mapper;
     public List<ResInfoVo> getUserReservation(ResInfoDto dto){
-        /*
-        {[
-            resPk : int
-            , hotelNm : String
-            , hotelCallnum : String
-            , roadAddress : String
-            , fromDate : String
-            , toDate : String
-            , cancle : int
-            , dogInfo : [
-                    resDogPk : int
-                    , sizePk : int
-                    , age : int
-                    , information : String
-                    ]
-        ]}
-         */
         //유저 예약 정보 가져옴
         List<ResInfoVo> resInfoVos=mapper.getUserReservation(dto);
+        List<Integer> pkList=new ArrayList<>();
+        Map<Integer,ResDogInfoVo> resPkList=new HashMap<>();
+        Map<Integer,ResInfoVo> resInfoList=new HashMap<>();
+        for (ResInfoVo vo:resInfoVos) {
+            resPkList.put(vo.getResPk(),null);
+            resInfoList.put(vo.getResPk(),vo);
+            pkList.add(vo.getResPk());
+        }
 
-        //
-        Set<Integer> getRestPk= resInfoVos.stream()
-                .map(ResInfoVo::getResPk)
-                .collect(Collectors.toCollection(TreeSet::new));
+        List<ResDogInfoVo> resDogInfo=mapper.getDogInfoReservation(pkList);
+        for (ResDogInfoVo vo:resDogInfo) {
+            int resPk=vo.getResPk();
+            ResInfoVo resInfo=resInfoList.get(resPk);
+            List<ResDogInfoVo> dogInfoVos=resInfo.getResDogInfoVoList();
 
-        int userPk=dto.getUserPk();
-
-        //select 여러번 안하는 방법 찾기.
-        for (ResInfoVo res : resInfoVos) {
-            List<ResDogInfoVo> resDogInfo=mapper.getDogInfoReservation(userPk,res.getResPk());
-            //개새끼 수 있는지 없는지 체크.
-            res.setResDogInfoVoList(resDogInfo);
         }
 
 

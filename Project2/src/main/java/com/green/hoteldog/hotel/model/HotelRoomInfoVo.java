@@ -9,6 +9,10 @@ import lombok.Data;
 @Schema(name = "호텔 방 정보")
 public class HotelRoomInfoVo {
 
+    private int hotelRoomPk;
+
+
+
     @NotNull
     @JsonProperty(value = "hotel_room_nm")
     private String hotelRoomNm;

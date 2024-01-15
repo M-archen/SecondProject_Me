@@ -34,7 +34,7 @@ public class HotelService {
         HotelInfoVo hotelInfoVo=mapper.getHotelDetail(dto.getHotelPk());
         //호텔 사진 넣어줌.
         hotelInfoVo.setPics(mapper.getHotelPics(dto.getHotelPk()));
-        HotelOption option=mapper.hotelOptionInfo(dto.getHotelPk());
+        List<String> option=mapper.hotelOptionInfo(dto.getHotelPk());
         hotelInfoVo.setHotelOption(option);
 
         //좋아요 많은 갯수대로 호텔에 적힌 리뷰 최대 3개까지 가져옴.
@@ -42,16 +42,10 @@ public class HotelService {
         if(reviewThree.size()==0){
             // 리뷰 없음.
         }
-        HotelReviewVo vo;
-        List pics;
-
-
-
-        int countreview=mapper.isMoreHotelReview(dto.getHotelPk());
-        if(countreview>3){
+        int countReview=mapper.isMoreHotelReview(dto.getHotelPk());
+        if(countReview>3){
             hotelInfoVo.setIsMoreReview(1);//리뷰 더있니 => 0 to 1
         }
-
         hotelInfoVo.setReviewList(reviewThree);
         hotelMainPage.setHotelInfoVo(hotelInfoVo);
 
@@ -88,9 +82,12 @@ public class HotelService {
         // 호텔의 방 타입,방 타입에 대한 예약 여부
         // 방 타입은 추후 추가
         //일정 기간동안의(2달간) 호텔의 예약정보 가져옴.
+
+
+
         List<HotelResInfoVo> hotelResInfoVos=mapper.getHotelResInfo(dto.getHotelPk(),startDate,endDate);
-        for (HotelResInfoVo vo:hotelResInfoVos) {
-            int dogCnt= mapper.getDogResInfo(vo.getResPk());
+        for (HotelResInfoVo resInfoVo:hotelResInfoVos) {
+            //int dogCnt= mapper.getDogResInfo();
 
         }
         List<HotelResAbleVo> twoMonthHotelInfo=new ArrayList<>();

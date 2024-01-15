@@ -5,8 +5,7 @@ import lombok.Data;
 @Data
 public class ResDogInfoVo {
     private int resPk;
-    private int resDogPk;
-    private int sizePk;
+    private String dogNm;
     private int age;
     private String information;
 }

@@ -26,15 +26,14 @@
         LIMIT 3
     </select>
     <select id="hotelOptionInfo">
-        SELECT swimming_pool AS swimmingPool ,play_ground AS playGround
-        ,	hand_made_food AS handMadeFood,pick_up AS pickUp
-        ,  dog_beauty AS dogBeautiy,dog_program AS dogprogram
-        ,	dog_walking AS dogWalking
-        FROM t_hotel_option
+        SELECT A.option_nm AS optionNm
+        FROM t_option A
+        JOIN t_hotel_option B
+        ON A.option_pk=B.option_pk
         WHERE hotel_pk=#{hotelPk}
     </select>
     <select id="isMoreHotelReview">
-        SELECT COUNT(A.review_pk) AS countreview
+        SELECT COUNT(A.review_pk) AS countReview
         FROM t_review A
         JOIN t_reservation B
         ON A.res_pk=B.res_pk
@@ -67,28 +66,6 @@
         JOIN t_reservation C
         ON C.res_pk=B.res_pk
         WHERE C.hotel_pk=#{hotelPk} AND C.user_pk=#{userPk}
-    </select>
-    <!--호텔 메인페이지에 리뷰를 출력하기위해 -->
-    <select id="getUidByReview">
-        SELECT E.user_pk AS userPk,A.hotel_pk AS hotelPk
-            ,C.review_pk AS reviewPk
-        FROM t_hotel A
-        JOIN t_reservation B
-        ON A.hotel_pk=B.hotel_pk
-        JOIN t_review C
-        ON B.res_pk=C.res_pk
-        JOIN t_review_fav D
-        ON C.review_pk=D.review_pk
-        JOIN t_user E
-        ON A.user_pk=E.user_pk
-        WHERE A.hotel_pk=#{hotelPk}
-        ORDER BY C.score
-        LIMIT 3
-    </select>
-    <select id="getHotelResPk">
-        SELECT res_pk AS resPk
-        FROM t_reservation
-        WHERE hotel_pk=#{hotelPk}
     </select>
     <!--호텔 찜 삭제-->
     <delete id="delHotelBookMark">
