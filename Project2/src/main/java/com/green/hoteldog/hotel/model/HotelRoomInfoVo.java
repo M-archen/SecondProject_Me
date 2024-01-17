@@ -12,7 +12,6 @@ public class HotelRoomInfoVo {
     private int hotelRoomPk;
 
 
-
     @NotNull
     @JsonProperty(value = "hotel_room_nm")
     private String hotelRoomNm;

@@ -4,7 +4,6 @@
 <mapper namespace="com.green.hoteldog.reservation.ReservationMapper">
     <select id="getDogInfoReservation">
         SELECT A.res_pk AS resPk, B.dog_nm AS dogNm
-        ,  B.age, B.information
         FROM t_res_comprehensive_info A
         JOIN t_res_dog_info B
         ON A.res_dog_pk=B.res_dog_pk

@@ -9,10 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    List<HotelResInfoVo> getHotelResInfo(int hotelPk, String startDate, String endDate);
+    List<HotelRoomResInfoByMonth> getHotelResInfo(int hotelPk, String startDate, String endDate);
     List<HotelReviewVo> getHotelReviewThree(int hotelPk);
     HotelInfoVo getHotelDetail(int hotelPk);
-    Integer getDogResInfo(int resPk);
     List<String> getHotelPics(int hotelPk);
     List<String> hotelOptionInfo(int hotelPk);
     List<String> getReviewPics(HotelReviewDto dto);

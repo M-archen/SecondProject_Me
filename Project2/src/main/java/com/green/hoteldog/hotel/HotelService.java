@@ -69,35 +69,34 @@ public class HotelService {
                 .collect(Collectors.toList());
 
         //호텔 예약정보 최근 두달 다가져오기.
-        //줘야할 것 호텔 pk,시작,끝날짜.
-        //해야할 것 : 날짜별로 예약정보 받아와서 예약된 강아지 수 카운팅, 비교
-
 
         //시작날짜 : 요번달 첫날
         String startDate=twoMonthDate.get(0).toString();
         //끝나는날짜 : 다다음달 첫날 (BETWEEN 쿼리 사용 위함)
         String endDate=twoMonthDate.get(twoMonthDate.size()).plusDays(1).toString();
-        // 추가사항 1월 10일
-        // 2달동안의 날짜 보내는 객체에
-        // 호텔의 방 타입,방 타입에 대한 예약 여부
-        // 방 타입은 추후 추가
-        //일정 기간동안의(2달간) 호텔의 예약정보 가져옴.
 
-
-
-        List<HotelResInfoVo> hotelResInfoVos=mapper.getHotelResInfo(dto.getHotelPk(),startDate,endDate);
-        for (HotelResInfoVo resInfoVo:hotelResInfoVos) {
-            //int dogCnt= mapper.getDogResInfo();
-
+        List<HotelRoomResInfoByMonth> hotelResInfoVos=mapper.getHotelResInfo(dto.getHotelPk(),startDate,endDate);
+        List<HotelRoomEaByDate> eaByDates=new ArrayList<>();
+        for (String date:twoMonth) {
+            HotelRoomEaByDate eaByDate=new HotelRoomEaByDate();
+            eaByDate.setDate(date);
+            eaByDates.add(eaByDate);
         }
+
+        for (HotelRoomEaByDate date:eaByDates) {
+            for (HotelRoomResInfoByMonth resInfoByMonth:hotelResInfoVos) {
+                if(date.getDate().equals(resInfoByMonth.getRoomDate())){
+
+                    
+                }
+            }
+        }
+
+
+
+
+
         List<HotelResAbleVo> twoMonthHotelInfo=new ArrayList<>();
-
-
-
-        /*
-        예약 날짜 보내기...
-         */
-        // 예약 확정될까지 건들지않기.
 
         return null;
     }
