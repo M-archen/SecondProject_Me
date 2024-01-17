@@ -13,6 +13,6 @@ public class HotelMainPage {
 
     private List<MyDog> myDogList;
 
-    private List<HotelResAbleVo> monthByRes;
+    private List<HotelRoomEaByDate> roomEaByDates;
 
 }

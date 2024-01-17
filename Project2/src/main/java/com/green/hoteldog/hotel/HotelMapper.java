@@ -14,6 +14,7 @@ public interface HotelMapper {
     HotelInfoVo getHotelDetail(int hotelPk);
     List<String> getHotelPics(int hotelPk);
     List<String> hotelOptionInfo(int hotelPk);
+    List<MyDog> getMyDogs(int userPk);
     List<String> getReviewPics(HotelReviewDto dto);
     int delHotelBookMark(UserHotelFavDto dto);
     int insHotelBookMark(UserHotelFavDto dto);

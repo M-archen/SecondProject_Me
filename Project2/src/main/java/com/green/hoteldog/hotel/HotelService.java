@@ -48,6 +48,11 @@ public class HotelService {
         }
         hotelInfoVo.setReviewList(reviewThree);
         hotelMainPage.setHotelInfoVo(hotelInfoVo);
+        //유저 있으면 유저 강아지 정보 삽입.
+        if(dto.getUserPk()>=1){
+            List<MyDog> myDogList=mapper.getMyDogs(dto.getUserPk());
+            hotelMainPage.setMyDogList(myDogList);
+        }
 
         LocalDate today=LocalDate.now();
         List<LocalDate> twoMonthDate=new ArrayList<>();
@@ -84,20 +89,27 @@ public class HotelService {
         }
 
         for (HotelRoomEaByDate date:eaByDates) {
+            List<HotelRoomEa> roomEas=new ArrayList<>();
+
             for (HotelRoomResInfoByMonth resInfoByMonth:hotelResInfoVos) {
                 if(date.getDate().equals(resInfoByMonth.getRoomDate())){
-
-                    
+                    HotelRoomEa ea=new HotelRoomEa();
+                    ea.setHotelRoomNm(resInfoByMonth.getHotelRoomNm());
+                    ea.setRoomLeftEa(resInfoByMonth.getRoomLeftEa());
+                    roomEas.add(ea);
                 }
             }
+            date.setRoomEas(roomEas);
+        }
+        //날짜 검증 로직.
+        for (String date:twoMonth) {
+            //if(eaByDates.get())
         }
 
 
+        hotelMainPage.setRoomEaByDates(eaByDates);
 
 
-
-        List<HotelResAbleVo> twoMonthHotelInfo=new ArrayList<>();
-
-        return null;
+        return hotelMainPage;
     }
 }

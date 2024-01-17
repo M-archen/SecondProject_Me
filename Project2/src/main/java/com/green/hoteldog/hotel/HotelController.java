@@ -1,7 +1,6 @@
 package com.green.hoteldog.hotel;
 
 import com.green.hoteldog.common.ResVo;
-import com.green.hoteldog.common.exception.ExceptionMsg;
 import com.green.hoteldog.hotel.model.*;
 import com.green.hoteldog.user.model.UserHotelFavDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,9 +22,14 @@ public class HotelController {
 
     @GetMapping()
     public HotelMainPage getHotelDetail(@RequestBody HotelMainPageDto dto){
+        if(dto.getHotelPk()==0){
+            //예외
+        }
+        HotelMainPage mainPage=service.getHotelDetail(dto);
 
 
-        return null;
+
+        return mainPage;
     }
 
     @GetMapping()
